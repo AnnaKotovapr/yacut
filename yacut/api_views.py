@@ -30,7 +30,8 @@ def create():
         short_id = get_unique_short_id()
     if URLMap.query.filter_by(short=short_id).first() is not None:
         raise InvalidAPIUsage(
-            f'Предложенный вариант короткой ссылки уже существует.'
+            f'Предложенный вариант короткой ссылки уже существует.',
+            HTTPStatus.BAD_REQUEST
         )
     if len(short_id) > 16:
         raise InvalidAPIUsage(
