@@ -11,10 +11,11 @@ def get_unique_short_id():
     id_length = randint(6, 6)
     characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     unique_short_id = ''.join(choice(characters) for _ in range(id_length))
-    
+
     if URLMap.query.filter_by(short=unique_short_id).first():
         return get_unique_short_id()
     return unique_short_id
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index_view():

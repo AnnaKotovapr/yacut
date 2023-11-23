@@ -23,9 +23,9 @@ def create():
         raise InvalidAPIUsage('Отсутствует тело запроса')
     if 'url' not in data:
         raise InvalidAPIUsage('"url" является обязательным полем!')
-    
+
     short_id = data.get('custom_id', get_unique_short_id())
-    
+
     if 'custom_id' not in data or data['custom_id'] is None or data['custom_id'] == '':
         short_id = get_unique_short_id()
     if URLMap.query.filter_by(short=short_id).first() is not None:
@@ -34,7 +34,7 @@ def create():
         )
     if len(short_id) > 16:
         raise InvalidAPIUsage(
-            'Указано недопустимое имя для короткой ссылки', 
+            'Указано недопустимое имя для короткой ссылки',
             HTTPStatus.BAD_REQUEST
         )
     if is_correct(short_id):
@@ -52,6 +52,6 @@ def create():
         return jsonify(response_data), response_status
     else:
         raise InvalidAPIUsage(
-            'Указано недопустимое имя для короткой ссылки', 
+            'Указано недопустимое имя для короткой ссылки',
             HTTPStatus.BAD_REQUEST
         )
