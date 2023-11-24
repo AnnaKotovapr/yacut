@@ -27,13 +27,13 @@ def create_short_link(data):
 
     if URLMap.query.filter_by(short=short_id).first() is not None:
         raise InvalidAPIUsage(
-            'Предложенный вариант короткой ссылки уже существует.', 
+            'Предложенный вариант короткой ссылки уже существует.',
             HTTPStatus.BAD_REQUEST
         )
 
     if len(short_id) > USER_INPUT_LIMIT or not is_correct(short_id):
         raise InvalidAPIUsage(
-            'Указано недопустимое имя для короткой ссылки', 
+            'Указано недопустимое имя для короткой ссылки',
             HTTPStatus.BAD_REQUEST
         )
 
