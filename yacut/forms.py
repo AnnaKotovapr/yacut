@@ -3,6 +3,7 @@ import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, URLField, ValidationError
 from wtforms.validators import DataRequired, Optional
+
 from .models import URLMap
 
 

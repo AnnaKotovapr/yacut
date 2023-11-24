@@ -5,6 +5,7 @@ from flask import abort, flash, redirect, render_template
 from . import app, db
 from .forms import URL_mapForm
 from .models import URLMap
+from .constants import USER_INPUT_LIMIT
 
 
 def get_unique_short_id():
@@ -28,7 +29,7 @@ def index_view():
             return render_template('index.html', form=form)
         if short_name is None or short_name == '':
             form.custom_id.data = get_unique_short_id()
-        if len(form.custom_id.data) > 16:
+        if len(form.custom_id.data) > USER_INPUT_LIMIT:
             flash('Указано недопустимое имя для короткой ссылки')
             form.custom_id.data = None
             return render_template('index.html', form=form)
@@ -43,8 +44,7 @@ def index_view():
 
 @app.route('/<string:short>')
 def redirection_view(short):
-    map = URLMap.query.filter_by(short=short).first()
+    map = URLMap.query.filter_by(short=short).first_or_404()
     if map is not None:
         original_link = map.original
         return redirect(original_link)
-    abort(404)
