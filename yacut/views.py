@@ -1,17 +1,17 @@
 from random import randint, choice
+from string import hexdigits
 
 from flask import flash, redirect, render_template
 
 from . import app, db
 from .forms import URL_mapForm
 from .models import URLMap
-from .constants import USER_INPUT_LIMIT
+from .constants import LINK_LENGTH, USER_INPUT_LIMIT
 
 
 def get_unique_short_id():
-    id_length = randint(6, 6)
-    characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    unique_short_id = ''.join(choice(characters) for _ in range(id_length))
+    id_length = randint(LINK_LENGTH, LINK_LENGTH)
+    unique_short_id = ''.join(choice(hexdigits) for _ in range(id_length))
 
     if URLMap.query.filter_by(short=unique_short_id).first():
         return get_unique_short_id()
